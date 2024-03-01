@@ -8,4 +8,5 @@ import com.openclassrooms.safetyNet.Model.FireStation;
 
 public interface FireStationRepository extends JpaRepository<FireStation, String>{
     List<FireStation> findByStation(String station);
+    String findByAddress(String address);
 }

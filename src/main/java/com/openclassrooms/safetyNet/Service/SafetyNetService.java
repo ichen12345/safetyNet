@@ -10,7 +10,13 @@ public interface SafetyNetService {
 
     List<Person> personServicedFirestation(String station);
 
-    // List<Children> childrenFromAddress(Person person, MedicalRecord medicalRecord);
+    List<Person> childrenFromAddressAlert(String address);
 
+    List<String> allEmailFromCity(String city);
 
+    List<Person> getHouseholdByStation(List<FireStation> stations);
+
+    List<Person> getPersonByName(String firstName, String lastName);
+
+    List<Person> getPersonAndStationFromAddress(String address);
 }

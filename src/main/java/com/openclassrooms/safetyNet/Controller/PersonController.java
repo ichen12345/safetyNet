@@ -15,17 +15,6 @@ import com.openclassrooms.safetyNet.Service.PersonService;
 @RequestMapping("person")
 public class PersonController {
 
-    // @GetMapping("/personForm")
-    // public ModelAndView showPersonForm() {
-    //     String viewName = "peopleByFireStation";
-
-    //     Map<String, Object> model = new HashMap<>();
-
-    //     model.put("person", new Person());
-
-    //     return new ModelAndView(viewName, model);
-    // }
-
     @Autowired
     PersonService personService;
 
