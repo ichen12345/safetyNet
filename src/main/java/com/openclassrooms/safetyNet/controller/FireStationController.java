@@ -1,4 +1,4 @@
-package com.openclassrooms.safetyNet.Controller;
+package com.openclassrooms.safetyNet.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.safetyNet.Model.FireStation;
-import com.openclassrooms.safetyNet.Service.FireStationService;
+import com.openclassrooms.safetyNet.entity.FireStation;
+import com.openclassrooms.safetyNet.service.FireStationService;
 
 @RestController
-@RequestMapping("firestation")
+@RequestMapping("fireStation")
 public class FireStationController {
     
     @Autowired

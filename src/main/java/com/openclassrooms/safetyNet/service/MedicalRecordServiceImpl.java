@@ -1,12 +1,12 @@
-package com.openclassrooms.safetyNet.Service;
+package com.openclassrooms.safetyNet.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.safetyNet.Model.MedicalRecord;
-import com.openclassrooms.safetyNet.Repository.MedicalRecordRepository;
+import com.openclassrooms.safetyNet.entity.MedicalRecord;
+import com.openclassrooms.safetyNet.repository.MedicalRecordRepository;
 
 import io.micrometer.common.util.StringUtils;
 
@@ -40,9 +40,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
         if(!medicalRecord.getMedications().isEmpty()){
             originalMedicalRecord.setMedications(medicalRecord.getMedications());
         }
-        if(!StringUtils.isBlank(medicalRecord.getAllergies())){
-            originalMedicalRecord.setAllergies(medicalRecord.getAllergies());
-        }
+//        if(!StringUtils.isBlank(medicalRecord.getAllergies())){
+//            originalMedicalRecord.setAllergies(medicalRecord.getAllergies());
+//        }
 
         return medicalRecordRepository.save(originalMedicalRecord);
 

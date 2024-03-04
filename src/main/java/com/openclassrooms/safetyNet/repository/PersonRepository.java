@@ -1,11 +1,11 @@
-package com.openclassrooms.safetyNet.Repository;
+package com.openclassrooms.safetyNet.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.openclassrooms.safetyNet.Model.Person;
+import com.openclassrooms.safetyNet.entity.Person;
 
 public interface PersonRepository extends JpaRepository<Person, Integer>{
    List<Person> findByAddress(String address);

@@ -1,6 +1,6 @@
-package com.openclassrooms.safetyNet.Service;
+package com.openclassrooms.safetyNet.service;
 
-import com.openclassrooms.safetyNet.Model.MedicalRecord;
+import com.openclassrooms.safetyNet.entity.MedicalRecord;
 
 public interface MedicalRecordService {
     MedicalRecord createMedicalRecord(MedicalRecord medicalRecord);

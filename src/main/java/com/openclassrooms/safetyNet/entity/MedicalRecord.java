@@ -1,4 +1,4 @@
-package com.openclassrooms.safetyNet.Model;
+package com.openclassrooms.safetyNet.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -46,7 +46,7 @@ public class MedicalRecord implements Serializable{
     private List<String> medications;
 
     @Column
-    private String allergies;
+    private List<String> allergies;
 
     @OneToOne(mappedBy = "medicalRecord")
     private Person person;

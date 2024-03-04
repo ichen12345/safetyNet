@@ -1,25 +1,19 @@
-package com.openclassrooms.safetyNet.Controller;
+package com.openclassrooms.safetyNet.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.openclassrooms.safetyNet.service.SafetyNetJsonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.openclassrooms.safetyNet.Model.FireStation;
-import com.openclassrooms.safetyNet.Model.MedicalRecord;
-import com.openclassrooms.safetyNet.Model.Person;
-import com.openclassrooms.safetyNet.Service.FireStationService;
-import com.openclassrooms.safetyNet.Service.PersonService;
-import com.openclassrooms.safetyNet.Service.SafetyNetService;
+import com.openclassrooms.safetyNet.model.FireStation;
+import com.openclassrooms.safetyNet.model.Person;
+import com.openclassrooms.safetyNet.service.SafetyNetService;
 
 @RestController
 public class SafetyNetController {
@@ -27,10 +21,13 @@ public class SafetyNetController {
     @Autowired
     SafetyNetService safetyNetService;
 
+    @Autowired
+    SafetyNetJsonService safetyNetJsonService;
+
     // http://localhost:8080/firestation?stationNumber=1&name=Ivy
-    @GetMapping("/firestation")
-    public List<Person> getPeopleFromFireStation(@RequestParam("stationNumber") String station) {
-        return safetyNetService.personServicedFirestation(station);
+    @GetMapping("/fireStation")
+    public Map<String, Object> getPeopleFromFireStation(@RequestParam("stationNumber") String station) {
+        return safetyNetJsonService.personServicedFireStation(station);
     }
 
     @GetMapping("/childAlert")
@@ -41,7 +38,7 @@ public class SafetyNetController {
     @GetMapping("/phoneAlert")
     public List<String> getPersonPhoneNumberBasedOnStation(@RequestParam("firestation") String station) {
 
-        List<Person> personStation = safetyNetService.personServicedFirestation(station);
+        List<Person> personStation = safetyNetService.personServicedFireStation(station);
         List<String> phoneStation = new ArrayList<>();
         for (Person person : personStation) {
             phoneStation.add(person.getPhone());
@@ -52,12 +49,12 @@ public class SafetyNetController {
 
     @GetMapping("/fire")
     public List<Person> getStationAndPersonBasedOnAddress(@RequestParam String address) {
-
+        return null;
     }
 
     @GetMapping("/stations")
     public List<String> getHouseholdByStation(@RequestParam List<FireStation> stations) {
-
+        return null;
     }
 
     @GetMapping("/personInfo")

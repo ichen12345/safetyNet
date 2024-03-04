@@ -1,6 +1,6 @@
-package com.openclassrooms.safetyNet.Service;
+package com.openclassrooms.safetyNet.service;
 
-import com.openclassrooms.safetyNet.Model.FireStation;
+import com.openclassrooms.safetyNet.entity.FireStation;
 
 public interface FireStationService {
     FireStation createFireStation(FireStation fireStation);

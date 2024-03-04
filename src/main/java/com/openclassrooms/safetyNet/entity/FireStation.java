@@ -1,4 +1,4 @@
-package com.openclassrooms.safetyNet.Model;
+package com.openclassrooms.safetyNet.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

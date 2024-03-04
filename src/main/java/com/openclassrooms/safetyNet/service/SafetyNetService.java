@@ -1,14 +1,13 @@
-package com.openclassrooms.safetyNet.Service;
+package com.openclassrooms.safetyNet.service;
 
 import java.util.List;
 
-import com.openclassrooms.safetyNet.Model.FireStation;
-import com.openclassrooms.safetyNet.Model.MedicalRecord;
-import com.openclassrooms.safetyNet.Model.Person;
+import com.openclassrooms.safetyNet.model.FireStation;
+import com.openclassrooms.safetyNet.model.Person;
 
 public interface SafetyNetService {
 
-    List<Person> personServicedFirestation(String station);
+    List<Person> personServicedFireStation(String station);
 
     List<Person> childrenFromAddressAlert(String address);
 

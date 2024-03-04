@@ -1,12 +1,12 @@
-package com.openclassrooms.safetyNet.Service;
+package com.openclassrooms.safetyNet.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.safetyNet.Model.Person;
-import com.openclassrooms.safetyNet.Repository.PersonRepository;
+import com.openclassrooms.safetyNet.entity.Person;
+import com.openclassrooms.safetyNet.repository.PersonRepository;
 
 import io.micrometer.common.util.StringUtils;
 

@@ -1,12 +1,12 @@
-package com.openclassrooms.safetyNet.Service;
+package com.openclassrooms.safetyNet.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.safetyNet.Model.FireStation;
-import com.openclassrooms.safetyNet.Repository.FireStationRepository;
+import com.openclassrooms.safetyNet.entity.FireStation;
+import com.openclassrooms.safetyNet.repository.FireStationRepository;
 
 import io.micrometer.common.util.StringUtils;
 
