@@ -60,4 +60,37 @@ public class SafetyNetServiceJsonImpl implements SafetyNetJsonService{
         return summaryMap;
     }
 
+    @Override
+    public Map<String, Object> childrenFromAddress(String address) {
+        Map<String, String> children = new HashMap<>();
+        List<Person> persons = data.getPersons();
+        List<Person> adultFromAddress = new ArrayList<>();
+        Map<String, Object> childrenAndAdults = new HashMap<>();
+        List<Map<String, String>> childs = new ArrayList<>();
+
+        for(Person person : persons){
+            if(person.getAddress().equals(address)) {
+                for(MedicalRecord medicalRecord : data.getMedicalrecords()) {
+                    if(person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
+                        int age = Period.between(LocalDate.parse(medicalRecord.getBirthdate(), formatter), LocalDate.now()).getYears();
+                        if(age <= 18) {
+                            children.put("firstName", person.getFirstName());
+                            children.put("lastName", person.getLastName());
+                            children.put("age", String.valueOf(age));
+                            childs.add(children);
+                        } else{
+                            adultFromAddress.add(person);
+                        }
+                    }
+
+                }
+
+            }
+        }
+        childrenAndAdults.put("children", childs);
+        childrenAndAdults.put("adults", adultFromAddress);
+        return childrenAndAdults;
+    }
+
+
 }

@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface SafetyNetJsonService {
     Map<String, Object> personServicedFireStation(String station);
+
+    Map<String, Object> childrenFromAddress(String address);
 }

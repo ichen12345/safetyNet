@@ -31,8 +31,8 @@ public class SafetyNetController {
     }
 
     @GetMapping("/childAlert")
-    public List<Person> getChildAlert(@RequestParam String address) {
-        return safetyNetService.childrenFromAddressAlert(address);
+    public Map<String, Object> getChildAlert(@RequestParam String address) {
+        return safetyNetJsonService.childrenFromAddress(address);
     }
 
     @GetMapping("/phoneAlert")
