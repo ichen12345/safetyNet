@@ -1,6 +1,7 @@
 package com.openclassrooms.safetyNet.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -37,33 +38,26 @@ public class SafetyNetController {
 
     @GetMapping("/phoneAlert")
     public List<String> getPersonPhoneNumberBasedOnStation(@RequestParam("firestation") String station) {
-
-        List<Person> personStation = safetyNetService.personServicedFireStation(station);
-        List<String> phoneStation = new ArrayList<>();
-        for (Person person : personStation) {
-            phoneStation.add(person.getPhone());
-        }
-
-        return phoneStation;
+        return safetyNetJsonService.getPersonPhoneFromStation(station);
     }
 
     @GetMapping("/fire")
-    public List<Person> getStationAndPersonBasedOnAddress(@RequestParam String address) {
-        return null;
+    public Map<String, Object> getStationAndPersonBasedOnAddress(@RequestParam String address) {
+        return safetyNetJsonService.getFireStationAndPeopleFromAddress(address);
     }
 
-    @GetMapping("/stations")
-    public List<String> getHouseholdByStation(@RequestParam List<FireStation> stations) {
-        return null;
+    @GetMapping("/flood/stations")
+    public Map<String, Object> getHouseholdByStation(@RequestParam String stations) {
+        return safetyNetJsonService.getHouseholdByStation(Arrays.asList(stations.split("-")));
     }
 
     @GetMapping("/personInfo")
-    public List<Person> getPerson(@RequestParam String firstName, @RequestParam String lastName) {
-        return safetyNetService.getPersonByName(firstName, lastName);
+    public List<Map<String, Object>> getPerson(@RequestParam String firstName, @RequestParam String lastName) {
+        return safetyNetJsonService.getPersonByName(firstName, lastName);
     }
 
     @GetMapping("/communityEmail")
     public List<String> getEmailBasedOnCity(@RequestParam String city) {
-        return safetyNetService.allEmailFromCity(city);
+        return safetyNetJsonService.allEmailFromCity(city);
     }
 }
