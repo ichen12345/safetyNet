@@ -19,8 +19,8 @@ import com.openclassrooms.safetyNet.service.SafetyNetService;
 @RestController
 public class SafetyNetController {
 
-    @Autowired
-    SafetyNetService safetyNetService;
+//    @Autowired
+//    SafetyNetService safetyNetService;
 
     @Autowired
     SafetyNetJsonService safetyNetJsonService;
