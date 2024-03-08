@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.openclassrooms.safetyNet.service.SafetyNetJsonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ public class SafetyNetController {
 
 //    @Autowired
 //    SafetyNetService safetyNetService;
-
+    Logger logger = LoggerFactory.getLogger(SafetyNetController.class);
     @Autowired
     SafetyNetJsonService safetyNetJsonService;
 
