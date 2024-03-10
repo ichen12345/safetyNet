@@ -40,9 +40,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
         if(!medicalRecord.getMedications().isEmpty()){
             originalMedicalRecord.setMedications(medicalRecord.getMedications());
         }
-//        if(!StringUtils.isBlank(medicalRecord.getAllergies())){
-//            originalMedicalRecord.setAllergies(medicalRecord.getAllergies());
-//        }
+        if(!medicalRecord.getAllergies().isEmpty()){
+            originalMedicalRecord.setAllergies(medicalRecord.getAllergies());
+        }
 
         return medicalRecordRepository.save(originalMedicalRecord);
 
