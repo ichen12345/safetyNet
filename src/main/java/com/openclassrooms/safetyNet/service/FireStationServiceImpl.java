@@ -23,7 +23,7 @@ public class FireStationServiceImpl implements FireStationService {
 
     @Override
     public FireStation updateFireStation(FireStation fireStation) {
-        Optional<FireStation> fireStationOptional = fireStationRepository.findById(null);
+        Optional<FireStation> fireStationOptional = fireStationRepository.findById(fireStation.getId().toString());
 
         if (fireStationOptional.isEmpty()) {
             return null;
