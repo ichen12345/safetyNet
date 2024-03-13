@@ -25,7 +25,7 @@ public class MedicalRecordController {
     }
 
     @PutMapping("/{id}")
-    public MedicalRecord updatMedicalRecord(@RequestBody MedicalRecord medicalRecord, @PathVariable String id) {
+    public MedicalRecord updateMedicalRecord(@RequestBody MedicalRecord medicalRecord, @PathVariable String id) {
         return medicalRecordService.updateMedicalRecord(medicalRecord);
     }
 

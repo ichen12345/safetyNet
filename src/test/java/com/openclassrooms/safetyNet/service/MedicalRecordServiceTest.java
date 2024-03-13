@@ -33,6 +33,7 @@ class MedicalRecordServiceTest {
         String[] allergies = {"allergies"};
         String[] med = {"med"};
         medicalRecord = MedicalRecord.builder()
+                .id(1)
                 .firstName("Ana")
                 .lastName("Smith")
                 .allergies(Arrays.asList(allergies))
@@ -54,7 +55,6 @@ class MedicalRecordServiceTest {
         Mockito.lenient().when(medicalRecordRepository.findById(1)).thenReturn(Optional.ofNullable(medicalRecord));
         Mockito.lenient().when(medicalRecordRepository.save(Mockito.any(MedicalRecord.class))).thenReturn(medicalRecord);
 
-        // why is updateMed null?
         MedicalRecord updatedMed = medicalRecordService.updateMedicalRecord(medicalRecord);
         assertThat(updatedMed).isNotNull();
     }
