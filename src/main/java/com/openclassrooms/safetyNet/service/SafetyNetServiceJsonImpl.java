@@ -19,7 +19,7 @@ import java.util.Map;
 public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
 
     @Autowired
-    private Data data;
+    Data data;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 

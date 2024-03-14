@@ -29,12 +29,17 @@ class FireStationServiceTest {
 
     @BeforeEach
     public void setup() {
-        // do I need to put in all the parameters?
-        fireStation = FireStation.builder()
-                .id(1)
-                .station("3")
-                .address("abc")
-                .build();
+        // put in all the parameters
+        fireStation = new FireStation();
+        fireStation.setAddress("abc");
+        fireStation.setStation("3");
+        fireStation.setId(1);
+
+//        fireStation = FireStation.builder()
+//                .id(1)
+//                .station("3")
+//                .address("abc")
+//                .build();
     }
 
     @Test

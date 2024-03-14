@@ -44,8 +44,6 @@ public class PersonServiceTest {
     @DisplayName("JUnit test for createPerson method")
     @Test
     public void givenPersonObject_whenCreatePerson_thenReturnPersonObject() {
-        //what does this mean? we don't need the below line right?
-//        Mockito.lenient().when(personRepository.findByFirstName(person.getFirstName())).thenReturn(null);
         Mockito.lenient().when(personRepository.save(person)).thenReturn(person);
 
         Person savedPerson = personService.createPerson(person);
