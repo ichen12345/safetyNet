@@ -1,40 +1,33 @@
 package com.openclassrooms.safetyNet.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import com.openclassrooms.safetyNet.service.SafetyNetJsonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.safetyNet.model.FireStation;
-import com.openclassrooms.safetyNet.model.Person;
-import com.openclassrooms.safetyNet.service.SafetyNetService;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SafetyNetController {
-
-//    @Autowired
-//    SafetyNetService safetyNetService;
-    Logger logger = LoggerFactory.getLogger(SafetyNetController.class);
+    private Logger logger = LoggerFactory.getLogger(SafetyNetController.class);
     @Autowired
     SafetyNetJsonService safetyNetJsonService;
 
     // http://localhost:8080/firestation?stationNumber=1&name=Ivy
     @GetMapping("/fireStation")
     public Map<String, Object> getPeopleFromFireStation(@RequestParam("stationNumber") String station) {
+        logger.info("GET request for /fireStation endpoint to get people from fire station {}", station);
         return safetyNetJsonService.personServicedFireStation(station);
     }
 
     @GetMapping("/childAlert")
     public Map<String, Object> getChildAlert(@RequestParam String address) {
+        logger.info("GET request for /childAlert endpoint to get  a list of children at that address");
         return safetyNetJsonService.childrenFromAddress(address);
     }
 

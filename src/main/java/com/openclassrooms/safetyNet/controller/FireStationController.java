@@ -1,5 +1,6 @@
 package com.openclassrooms.safetyNet.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,14 @@ import com.openclassrooms.safetyNet.service.FireStationService;
 @RestController
 @RequestMapping("fireStation")
 public class FireStationController {
-    
+
+    private Logger logger = Logger.getLogger(FireStationController.class);
     @Autowired
     FireStationService fireStationService;
 
     @PostMapping()
     public FireStation addFireStation(@RequestBody FireStation fireStation) {
+        logger.info("Post request for /fireStation endpoint to add a fire station");
         return fireStationService.createFireStation(fireStation);
     }
     

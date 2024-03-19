@@ -44,7 +44,7 @@ public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
                         persons.add(personMap);
                         for (MedicalRecord medicalRecord : data.getMedicalrecords()) {
                             if (medicalRecord.getFirstName().equals(person.getFirstName()) && medicalRecord.getLastName().equals(person.getLastName())) {
-                                if (Period.between(LocalDate.now(), LocalDate.parse(medicalRecord.getBirthdate(), formatter)).getYears() > 18) {
+                                if (Period.between(LocalDate.parse(medicalRecord.getBirthdate(), formatter), LocalDate.now()).getYears() > 18) {
                                     adultCount++;
                                 } else {
                                     childCount++;
@@ -151,7 +151,6 @@ public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
         return summary;
     }
 
-    //working but order messed up
     @Override
     public List<Map<String, Object>> getPersonByName(String firstName, String lastName) {
         List<Map<String, Object>> summary = new ArrayList<>();

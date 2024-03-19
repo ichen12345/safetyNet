@@ -1,7 +1,6 @@
 package com.openclassrooms.safetyNet;
 
 import com.google.gson.Gson;
-import com.openclassrooms.safetyNet.entity.Person;
 import com.openclassrooms.safetyNet.model.Data;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +12,8 @@ import java.io.Reader;
 
 @SpringBootApplication
 public class SafetyNetApplication {
+
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(SafetyNetApplication.class, args);

@@ -18,6 +18,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SafetyNetServiceJsonImplTest {
@@ -50,7 +51,7 @@ class SafetyNetServiceJsonImplTest {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setFirstName("first");
         medicalRecord.setLastName("last");
-        medicalRecord.setBirthdate("03/06/1984");
+        medicalRecord.setBirthdate("03/06/2020");
         medicalRecord.setMedications(Arrays.asList(med));
         medicalRecord.setAllergies(Arrays.asList(allergies));
         medicalRecords = new ArrayList<>();
@@ -65,12 +66,24 @@ class SafetyNetServiceJsonImplTest {
 
     @Test
     void personServicedFireStation() {
+        Mockito.when(data.getFirestations()).thenReturn(fireStations);
+        Mockito.when(data.getPersons()).thenReturn(persons);
+        Mockito.when(data.getMedicalrecords()).thenReturn(medicalRecords);
 
-
+        Map<String, Object> result = safetyNetServiceJson.personServicedFireStation("3");
+        assertTrue(persons.get(0).getFirstName().equals("first"));
+        assertEquals(0, result.get("adults"));
     }
 
     @Test
     void childrenFromAddress() {
+        Mockito.when(data.getPersons()).thenReturn(persons);
+        Mockito.when(data.getMedicalrecords()).thenReturn(medicalRecords);
+
+        Map<String, Object> result = safetyNetServiceJson.childrenFromAddress("address");
+
+        assertNotNull(result.get("adults"));
+// [Person(firstName=first, lastName=last, address=address, city=Chicago, zip=null, phone=123456789, email=123)]
     }
 
     @Test
@@ -85,6 +98,13 @@ class SafetyNetServiceJsonImplTest {
 
     @Test
     void getFireStationAndPeopleFromAddress() {
+        Mockito.when(data.getFirestations()).thenReturn(fireStations);
+        Mockito.when(data.getPersons()).thenReturn(persons);
+        Mockito.when(data.getMedicalrecords()).thenReturn(medicalRecords);
+
+        Map<String, Object> results = safetyNetServiceJson.getFireStationAndPeopleFromAddress("address");
+
+        assertNotNull(results.get("persons"));
     }
 
     @Test
@@ -108,6 +128,16 @@ class SafetyNetServiceJsonImplTest {
 
     @Test
     void getHouseholdByStation() {
+        Mockito.when(data.getFirestations()).thenReturn(fireStations);
+        Mockito.when(data.getPersons()).thenReturn(persons);
+        Mockito.when(data.getMedicalrecords()).thenReturn(medicalRecords);
+
+        List <String> stations = new ArrayList<>();
+        stations.add("3");
+        Map<String, Object> results = safetyNetServiceJson.getHouseholdByStation(stations);
+
+        assertTrue(fireStations.get(0).getStation().equals(stations.get(0)));
+        assertNotNull(results.get("persons from station 3"));
     }
 
     @Test

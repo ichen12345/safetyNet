@@ -1,7 +1,6 @@
 package com.openclassrooms.safetyNet.service;
 
 import com.openclassrooms.safetyNet.entity.MedicalRecord;
-import com.openclassrooms.safetyNet.entity.Person;
 import com.openclassrooms.safetyNet.repository.MedicalRecordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ExtendWith(MockitoExtension.class)
 class MedicalRecordServiceTest {

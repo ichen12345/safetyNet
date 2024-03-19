@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
@@ -55,7 +56,6 @@ public class PersonServiceTest {
     @DisplayName("JUnit test for updatePerson method")
     @Test
     public void givenPersonObject_whenUpdatePerson_thenReturnUpdatedPerson() {
-        // idk why after I add the line below the test passed...
         Mockito.lenient().when(personRepository.findById(1)).thenReturn(Optional.ofNullable(person));
         Mockito.lenient().when(personRepository.save(person)).thenReturn(person);
         person.setEmail("update@gmail.com");
@@ -69,15 +69,11 @@ public class PersonServiceTest {
     @DisplayName("JUnit test for deletePerson method")
     @Test
     public void givenPersonId_whenDeletePerson_thenNothing() {
-        // don't understand...
-//        Integer personId = 1;
-        Mockito.lenient().when(personRepository.findById(1)).thenReturn(Optional.ofNullable(person));
 
-//        willDoNothing().given(personRepository).deleteById(personId);
+        doNothing().when(personRepository).delete(Mockito.any(Person.class));
 
-//        personService.deletePerson(personId);
+        personService.deletePerson(1);
 
-        assertAll(() ->personService.deletePerson(1));
-//        verify(personRepository, times(1)).deleteById(personId);
+        verify(personRepository, times(1)).delete(Mockito.any(Person.class));
     }
 }
