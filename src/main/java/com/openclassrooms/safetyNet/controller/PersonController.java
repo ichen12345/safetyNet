@@ -1,36 +1,47 @@
 package com.openclassrooms.safetyNet.controller;
 
+import com.openclassrooms.safetyNet.service.PersonJsonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.openclassrooms.safetyNet.entity.Person;
-import com.openclassrooms.safetyNet.service.PersonService;
+import org.springframework.web.bind.annotation.*;
+import com.openclassrooms.safetyNet.model.Person;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("person")
 public class PersonController {
 
+    private Logger logger = LoggerFactory.getLogger(PersonController.class);
+
     @Autowired
-    PersonService personService;
+    PersonJsonService personJsonService;
 
     @PostMapping()
     public Person addPerson(@RequestBody Person person) {
-        return personService.createPerson(person);
+        logger.info("Post request for /person endpoint to add a person {}", person);
+        return personJsonService.createPerson(person);
     }
 
-    @PutMapping("/{id}")
-    public Person updatePerson(@RequestBody Person person, @PathVariable String id) {
-        return personService.updatePerson(person);
+    @PutMapping()
+    public Person updatePerson(@RequestBody Person person) {
+        logger.info("Put request for /person endpoint to update a person {}", person);
+        if(personJsonService.updatePerson(person) == null) {
+            System.out.println("updated person does not exist!");
+        }
+        return personJsonService.updatePerson(person);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletePerson(@PathVariable Integer id) {
-        personService.deletePerson(id);
+    @GetMapping()
+    public List<Person> personList() {
+        return personJsonService.getPerson();
+    }
+
+    @DeleteMapping()
+    public void deletePerson(@RequestBody Person person) {
+        logger.info("Delete request for /person endpoint to delete a person {}", person);
+        personJsonService.deletePerson(person);
     }
     
 }

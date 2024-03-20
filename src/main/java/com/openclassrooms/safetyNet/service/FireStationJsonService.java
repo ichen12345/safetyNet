@@ -1,11 +1,11 @@
 package com.openclassrooms.safetyNet.service;
 
-import com.openclassrooms.safetyNet.entity.FireStation;
+import com.openclassrooms.safetyNet.model.FireStation;
 
-public interface FireStationService {
+public interface FireStationJsonService {
     FireStation createFireStation(FireStation fireStation);
 
     FireStation updateFireStation(FireStation fireStation);
 
-    void deleteFireStation(Integer id);
+    void deleteFireStation(FireStation fireStation);
 }

@@ -1,8 +1,8 @@
 package com.openclassrooms.safetyNet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.safetyNet.entity.FireStation;
-import com.openclassrooms.safetyNet.service.FireStationService;
+import com.openclassrooms.safetyNet.model.FireStation;
+import com.openclassrooms.safetyNet.service.FireStationJsonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -29,7 +28,7 @@ class FireStationControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private FireStationService fireStationService;
+    private FireStationJsonService fireStationJsonService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -38,16 +37,14 @@ class FireStationControllerTest {
 
     @BeforeEach
     public void setup() {
-        fireStation = FireStation.builder()
-                .id(1)
-                .station("3")
-                .address("abc")
-                .build();
+        fireStation = new FireStation();
+        fireStation.setStation("3");
+        fireStation.setAddress("abc");
     }
 
     @Test
     void addFireStation() throws Exception{
-        when(fireStationService.createFireStation(fireStation)).thenReturn(fireStation);
+        when(fireStationJsonService.createFireStation(fireStation)).thenReturn(fireStation);
 
         mockMvc.perform(post("/fireStation")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -57,9 +54,9 @@ class FireStationControllerTest {
 
     @Test
     void updateFireStation() throws Exception{
-        when(fireStationService.updateFireStation(fireStation)).thenReturn(fireStation);
+        when(fireStationJsonService.updateFireStation(fireStation)).thenReturn(fireStation);
 
-        mockMvc.perform(put("/fireStation/{id}", fireStation.getId())
+        mockMvc.perform(put("/fireStation", fireStation)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(fireStation)))
                 .andExpect(status().isOk());
@@ -67,10 +64,10 @@ class FireStationControllerTest {
 
     @Test
     void deleteFireStation() throws Exception{
-        doNothing().when(fireStationService).deleteFireStation(fireStation.getId());
-        mockMvc.perform(delete("/fireStation/{id}", fireStation.getId())
+        doNothing().when(fireStationJsonService).deleteFireStation(fireStation);
+        mockMvc.perform(delete("/fireStation", fireStation)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(fireStation.getId())))
+                        .content(objectMapper.writeValueAsString(fireStation)))
                 .andExpect(status().isOk());
     }
 }

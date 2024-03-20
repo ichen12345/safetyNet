@@ -1,8 +1,8 @@
 package com.openclassrooms.safetyNet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.safetyNet.entity.Person;
-import com.openclassrooms.safetyNet.service.PersonService;
+import com.openclassrooms.safetyNet.model.Person;
+import com.openclassrooms.safetyNet.service.PersonJsonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ class PersonControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PersonService personService;
+    private PersonJsonService personService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -36,16 +36,14 @@ class PersonControllerTest {
 
     @BeforeEach
     public void setup() {
-        person = Person.builder()
-                .id(1)
-                .firstName("John")
-                .lastName("Boyd")
-                .email("abc@gmail.com")
-                .zip("12345")
-                .phone("841-874-6512")
-                .address("1509 Culver St")
-                .city("Culver")
-                .build();
+        person = new Person();
+        person.setFirstName("first");
+        person.setLastName("last");
+        person.setPhone("841-874-6512");
+        person.setZip("12345");
+        person.setAddress("address");
+        person.setCity("Taipei");
+        person.setEmail("email");
     }
 
     @Test
@@ -62,17 +60,17 @@ class PersonControllerTest {
     public void UpdatePerson_ReturnUpdatedPerson() throws Exception {
         when(personService.updatePerson(person)).thenReturn(person);
 
-        mockMvc.perform(put("/person/{id}", person.getId())
+        mockMvc.perform(put("/person", person)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(person)))
                 .andExpect(status().isOk());
     }
     @Test
     public void DeletePersonById_ReturnNothing() throws Exception {
-        doNothing().when(personService).deletePerson(person.getId());
-        mockMvc.perform(delete("/person/{id}", person.getId())
+        doNothing().when(personService).deletePerson(person);
+        mockMvc.perform(delete("/person", person)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(person.getId())))
+                        .content(objectMapper.writeValueAsString(person)))
                         .andExpect(status().isOk());
 
     }

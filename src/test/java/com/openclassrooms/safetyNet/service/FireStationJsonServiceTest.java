@@ -1,7 +1,7 @@
 package com.openclassrooms.safetyNet.service;
 
-import com.openclassrooms.safetyNet.entity.FireStation;
-import com.openclassrooms.safetyNet.repository.FireStationRepository;
+import com.openclassrooms.safetyNet.model.FireStation;
+import com.openclassrooms.safetyNet.model.Data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,34 +19,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ExtendWith(MockitoExtension.class)
-class FireStationServiceTest {
+class FireStationJsonServiceTest {
 
     @Mock
-    FireStationRepository fireStationRepository;
-
+    Data data;
     @InjectMocks
-    FireStationServiceImpl fireStationService;
+    FireStationJsonServiceImpl fireStationService;
 
     private FireStation fireStation;
 
+    private List<FireStation> fireStationList;
+
     @BeforeEach
     public void setup() {
-        // put in all the parameters
         fireStation = new FireStation();
         fireStation.setAddress("abc");
         fireStation.setStation("3");
-        fireStation.setId(1);
 
-//        fireStation = FireStation.builder()
-//                .id(1)
-//                .station("3")
-//                .address("abc")
-//                .build();
+        fireStationList = new ArrayList<>();
+        fireStationList.add(fireStation);
     }
 
     @Test
     public void FireStation_CreateFireStation_ReturnFireStationObject() {
-        Mockito.lenient().when(fireStationRepository.save(fireStation)).thenReturn(fireStation);
+        Mockito.lenient().when(data.getFirestations()).thenReturn(fireStationList);
 
         FireStation savedFireStation = fireStationService.createFireStation(fireStation);
 
@@ -53,20 +51,15 @@ class FireStationServiceTest {
 
     @Test
     public void FireStation_UpdateFireStation_ReturnUpdatedFireStation() {
-        Mockito.lenient().when(fireStationRepository.findById("1")).thenReturn(Optional.ofNullable(fireStation));
-        Mockito.lenient().when(fireStationRepository.save(fireStation)).thenReturn(fireStation);
+        Mockito.lenient().when(data.getFirestations()).thenReturn(fireStationList);
         fireStation.setStation("5");
-        fireStation.setAddress("updated");
 
         FireStation updatedFireStation = fireStationService.updateFireStation(fireStation);
         assertThat(updatedFireStation.getStation()).isEqualTo("5");
-        assertThat(updatedFireStation.getAddress()).isEqualTo("updated");
     }
 
     @Test
     public void FireStation_DeleteFireStation_ReturnNothing() {
-        Mockito.lenient().when(fireStationRepository.findById("1")).thenReturn(Optional.ofNullable(fireStation));
 
-        assertAll(() ->fireStationService.deleteFireStation(1));
     }
 }

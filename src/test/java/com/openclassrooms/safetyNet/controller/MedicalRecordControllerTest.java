@@ -1,8 +1,8 @@
 package com.openclassrooms.safetyNet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.safetyNet.entity.MedicalRecord;
-import com.openclassrooms.safetyNet.service.MedicalRecordService;
+import com.openclassrooms.safetyNet.model.MedicalRecord;
+import com.openclassrooms.safetyNet.service.MedicalRecordJsonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,9 +14,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,30 +32,30 @@ class MedicalRecordControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private MedicalRecordService medicalRecordService;
+    private MedicalRecordJsonService medicalRecordJsonService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     private MedicalRecord medicalRecord;
 
+
     @BeforeEach
     public void setUp() {
         String[] allergies = {"allergies"};
         String[] med = {"med"};
-        medicalRecord = MedicalRecord.builder()
-                // I needed to add the id field otherwise deleteFireStation will not work??
-                .id(1)
-                .firstName("Ana")
-                .lastName("Smith")
-                .allergies(Arrays.asList(allergies))
-                .medications(Arrays.asList(med))
-                .build();
+        medicalRecord = new MedicalRecord();
+        medicalRecord.setFirstName("Ana");
+        medicalRecord.setLastName("Smith");
+        medicalRecord.setBirthdate("birth");
+        medicalRecord.setMedications(Arrays.asList(med));
+        medicalRecord.setAllergies(Arrays.asList(allergies));
+
     }
 
     @Test
     void addMedicalRecord() throws Exception{
-        when(medicalRecordService.createMedicalRecord(medicalRecord)).thenReturn(medicalRecord);
+        when(medicalRecordJsonService.createMedicalRecord(medicalRecord)).thenReturn(medicalRecord);
 
         mockMvc.perform(post("/medicalRecord")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -64,9 +65,9 @@ class MedicalRecordControllerTest {
 
     @Test
     void updateMedicalRecord() throws Exception{
-        when(medicalRecordService.updateMedicalRecord(medicalRecord)).thenReturn(medicalRecord);
+        when(medicalRecordJsonService.updateMedicalRecord(medicalRecord)).thenReturn(medicalRecord);
 
-        mockMvc.perform(put("/medicalRecord/{id}", medicalRecord.getId())
+        mockMvc.perform(put("/medicalRecord", medicalRecord)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(medicalRecord)))
                 .andExpect(status().isOk());
@@ -74,10 +75,10 @@ class MedicalRecordControllerTest {
 
     @Test
     void deleteMedicalRecord() throws Exception{
-        doNothing().when(medicalRecordService).deleteMedicalRecord(medicalRecord.getId());
-        mockMvc.perform(delete("/medicalRecord/{id}", medicalRecord.getId())
+        doNothing().when(medicalRecordJsonService).deleteMedicalRecord(medicalRecord);
+        mockMvc.perform(delete("/medicalRecord", medicalRecord)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(medicalRecord.getId())))
+                        .content(objectMapper.writeValueAsString(medicalRecord)))
                 .andExpect(status().isOk());
     }
 }
