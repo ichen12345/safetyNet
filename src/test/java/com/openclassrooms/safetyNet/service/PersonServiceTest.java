@@ -72,16 +72,13 @@ public class PersonServiceTest {
         assertThat(updatedPerson.getAddress()).isEqualTo("1234 updated street");
     }
 
-//    @DisplayName("JUnit test for deletePerson method")
-//    @Test
-//    public void givenPersonId_whenDeletePerson_thenNothing() {
-////        List<Person> mockPersonList = Mockito.mock(List<Person.class>);
-//        Mockito.lenient().when(data.getPersons()).thenReturn(personList);
-//
-//        Mockito.lenient().when(personList.remove(person)).thenReturn(true);
-//        personService.deletePerson(person);
-//
-//        assert !personList.contains(person);
-//        verify(data, times(1)).getPersons().remove(person);
-//    }
+    @DisplayName("JUnit test for deletePerson method")
+    @Test
+    public void givenPersonId_whenDeletePerson_thenNothing() {
+        Mockito.lenient().when(data.getPersons()).thenReturn(personList);
+
+        personService.deletePerson(person);
+
+        assert !personList.contains(person);
+    }
 }

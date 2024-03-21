@@ -1,10 +1,12 @@
 package com.openclassrooms.safetyNet.service;
 
+import com.openclassrooms.safetyNet.model.FireStation;
 import com.openclassrooms.safetyNet.model.MedicalRecord;
 import com.openclassrooms.safetyNet.model.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -35,6 +37,14 @@ public class MedicalRecordJsonServiceImpl implements MedicalRecordJsonService{
 
     @Override
     public void deleteMedicalRecord(MedicalRecord medicalRecord) {
+        List<MedicalRecord> medicalRecords = data.getMedicalrecords();
 
+        Iterator<MedicalRecord> it = medicalRecords.iterator();
+        while (it.hasNext()) {
+            MedicalRecord medicalRecordData = it.next();
+            if (medicalRecordData.getFirstName().equals(medicalRecord.getFirstName()) && medicalRecordData.getLastName().equals(medicalRecord.getLastName())) {
+                it.remove();
+            }
+        }
     }
 }

@@ -66,6 +66,10 @@ class MedicalRecordJsonServiceTest {
 
     @Test
     public void medicalRecord_deleteMedicalRecord_thenNothing() {
+        Mockito.lenient().when(data.getMedicalrecords()).thenReturn(medicalRecords);
 
+        medicalRecordService.deleteMedicalRecord(medicalRecord);
+
+        assert !medicalRecords.contains(medicalRecord);
     }
 }

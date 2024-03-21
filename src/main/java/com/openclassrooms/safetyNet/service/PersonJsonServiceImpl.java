@@ -5,6 +5,7 @@ import com.openclassrooms.safetyNet.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 @Service
 public class PersonJsonServiceImpl implements PersonJsonService{
@@ -44,10 +45,19 @@ public class PersonJsonServiceImpl implements PersonJsonService{
     @Override
     public void deletePerson(Person person) {
         List<Person> people = data.getPersons();
-        for(Person personData : people) {
-            if(personData.getFirstName().equals(person.getFirstName()) && personData.getLastName().equals(person.getLastName())) {
-                people.remove(personData);
+//        for(Person personData : people) {
+//            if(personData.getFirstName().equals(person.getFirstName()) && personData.getLastName().equals(person.getLastName())) {
+//                people.remove(personData);
+//            }
+//        }
+        //need to use iterator here
+        Iterator<Person> it = people.iterator();
+        while (it.hasNext()) {
+            Person personData = it.next();
+            if (personData.getFirstName().equals(person.getFirstName()) && personData.getLastName().equals(person.getLastName())) {
+                it.remove();
             }
         }
+
     }
 }

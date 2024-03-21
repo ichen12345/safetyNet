@@ -2,10 +2,12 @@ package com.openclassrooms.safetyNet.service;
 
 import com.openclassrooms.safetyNet.model.Data;
 import com.openclassrooms.safetyNet.model.FireStation;
+import com.openclassrooms.safetyNet.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -34,6 +36,14 @@ public class FireStationJsonServiceImpl implements FireStationJsonService{
 
     @Override
     public void deleteFireStation(FireStation fireStation) {
+        List<FireStation> fireStations = data.getFirestations();
 
+        Iterator<FireStation> it = fireStations.iterator();
+        while (it.hasNext()) {
+            FireStation fireStationData = it.next();
+            if (fireStationData.getAddress().equals(fireStation.getAddress())) {
+                it.remove();
+            }
+        }
     }
 }

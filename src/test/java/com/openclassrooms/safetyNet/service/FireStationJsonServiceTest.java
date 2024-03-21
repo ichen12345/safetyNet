@@ -60,6 +60,10 @@ class FireStationJsonServiceTest {
 
     @Test
     public void FireStation_DeleteFireStation_ReturnNothing() {
+        Mockito.lenient().when(data.getFirestations()).thenReturn(fireStationList);
 
+        fireStationService.deleteFireStation(fireStation);
+
+        assert !fireStationList.contains(fireStation);
     }
 }
