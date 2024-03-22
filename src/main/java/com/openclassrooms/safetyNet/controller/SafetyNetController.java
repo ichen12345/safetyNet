@@ -21,7 +21,7 @@ public class SafetyNetController {
     // http://localhost:8080/firestation?stationNumber=1&name=Ivy
     @GetMapping("/fireStation")
     public Map<String, Object> getPeopleFromFireStation(@RequestParam("stationNumber") String station) {
-        logger.info("GET request for /fireStation endpoint to get people from fire station {}", station);
+        logger.info("GET request for /fireStation endpoint to get people serviced by the fire station {}", station);
         return safetyNetJsonService.personServicedFireStation(station);
     }
 
@@ -45,19 +45,19 @@ public class SafetyNetController {
 
     @GetMapping("/flood/stations")
     public Map<String, Object> getHouseholdByStation(@RequestParam String stations) {
-        logger.info("GET request for /flood/stations endpoint to get a list of all the households in each fire station’s {} jurisdiction", stations);
+        logger.info("GET request for /flood/stations endpoint to get a list of all the households in fire station {}'s jurisdiction", stations);
         return safetyNetJsonService.getHouseholdByStation(Arrays.asList(stations.split("-")));
     }
 
     @GetMapping("/personInfo")
     public List<Map<String, Object>> getPerson(@RequestParam String firstName, @RequestParam String lastName) {
-        logger.info("GET request for /personInfo endpoint to get the person’s name, address, age, email, list of medications with dosages and allergies");
+        logger.info("GET request for /personInfo endpoint to get the person {} {}, address, age, email, list of medications with dosages and allergies", firstName, lastName);
         return safetyNetJsonService.getPersonByName(firstName, lastName);
     }
 
     @GetMapping("/communityEmail")
     public List<String> getEmailBasedOnCity(@RequestParam String city) {
-        logger.info("GET request for /communityEmail endpoint to get the email addresses of all of the people in the city");
+        logger.info("GET request for /communityEmail endpoint to get the email addresses of all of the people in the city {}", city);
         return safetyNetJsonService.allEmailFromCity(city);
     }
 }

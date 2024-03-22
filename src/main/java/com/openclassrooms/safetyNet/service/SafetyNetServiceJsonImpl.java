@@ -117,7 +117,6 @@ public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
         return phones;
     }
 
-    //working but order messed up
     @Override
     public Map<String, Object> getFireStationAndPeopleFromAddress(String address) {
         Map<String, Object> summary = new HashMap<>();
@@ -175,46 +174,101 @@ public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
 
         return summary;
     }
+//    @Override
+//    public Map<String, Object> getHouseholdByStation(List<String> stations) {
+//        List<Map<String, Object>> summary;
+//        Map<String, Object> stationPerson = new HashMap<>();
+//        for (String station : stations) {
+//            summary = new ArrayList<>();
+//            for (FireStation fireStation : data.getFirestations()) {
+//                if (fireStation.getStation().equals(station)) {
+//                    for (Person person : data.getPersons()) {
+//                        Map<String, Object> personMap = new HashMap<>();
+//                        if (fireStation.getAddress().equals(person.getAddress())) {
+//                            personMap.put("phone number", person.getPhone());
+//                            personMap.put("firstName", person.getFirstName());
+//                            personMap.put("lastName", person.getLastName());
+//                            personMap.put("address", person.getAddress());
+//
+//                            for (MedicalRecord medicalRecord : data.getMedicalrecords()) {
+//                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
+//                                    int age = Period.between(LocalDate.parse(medicalRecord.getBirthdate(), formatter), LocalDate.now()).getYears();
+//                                    personMap.put("age", String.valueOf(age));
+//                                    personMap.put("medications", medicalRecord.getMedications());
+//                                    personMap.put("allergies", medicalRecord.getAllergies());
+//                                    summary.add(personMap);
+//                                }
+//
+//                            }
+//                        }
+//
+//                    }
+//                }
+//
+//
+//
+//            }
+//
+//
+//            stationPerson.put("persons from station " + station, summary);
+//        }
+//
+//
+//
+//        return stationPerson;
+//    }
+
+
+
     @Override
     public Map<String, Object> getHouseholdByStation(List<String> stations) {
         List<Map<String, Object>> summary;
+        Map<String, List<Map<String, Object>>> addressPerson;
         Map<String, Object> stationPerson = new HashMap<>();
         for (String station : stations) {
-            summary = new ArrayList<>();
+//            summary = new ArrayList<>();
+            addressPerson = new HashMap<>();
             for (FireStation fireStation : data.getFirestations()) {
+
+                Map<String, Object> personMap = new HashMap<>();
                 if (fireStation.getStation().equals(station)) {
                     for (Person person : data.getPersons()) {
-                        Map<String, Object> personMap = new HashMap<>();
+
+//                        Map<String, Object> personMap = new HashMap<>();
                         if (fireStation.getAddress().equals(person.getAddress())) {
+                            summary = new ArrayList<>();
                             personMap.put("phone number", person.getPhone());
                             personMap.put("firstName", person.getFirstName());
                             personMap.put("lastName", person.getLastName());
-
-
-                            for (MedicalRecord medicalRecord : data.getMedicalrecords()) {
-                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
-                                    int age = Period.between(LocalDate.parse(medicalRecord.getBirthdate(), formatter), LocalDate.now()).getYears();
-                                    personMap.put("age", String.valueOf(age));
-                                    personMap.put("medications", medicalRecord.getMedications());
-                                    personMap.put("allergies", medicalRecord.getAllergies());
-                                    summary.add(personMap);
-                                }
+//                            summary.add(personMap);
+//                            addressPerson.put(person.getAddress(), summary);
+                            if (!addressPerson.containsKey(fireStation.getAddress())) {
+                                summary.add(personMap);
+                                addressPerson.put(person.getAddress(), summary);
+                            } else {
+                                List<Map<String, Object>> summaryLocal = addressPerson.get(person.getAddress());
+                                summaryLocal.add(personMap);
 
                             }
+//                            for (MedicalRecord medicalRecord : data.getMedicalrecords()) {
+//                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
+//                                    int age = Period.between(LocalDate.parse(medicalRecord.getBirthdate(), formatter), LocalDate.now()).getYears();
+//                                    personMap.put("age", String.valueOf(age));
+//                                    personMap.put("medications", medicalRecord.getMedications());
+//                                    personMap.put("allergies", medicalRecord.getAllergies());
+//                                    summary.add(personMap);
+//
+//                                }
+//                            }
                         }
+                        stationPerson.put("person from station " + station, addressPerson.get(person.getAddress()));
+
 
                     }
                 }
-
-
-
             }
 
-
-            stationPerson.put("persons from station " + station, summary);
         }
-
-
 
         return stationPerson;
     }

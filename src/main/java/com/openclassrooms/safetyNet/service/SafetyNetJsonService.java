@@ -1,8 +1,5 @@
 package com.openclassrooms.safetyNet.service;
 
-import com.openclassrooms.safetyNet.model.FireStation;
-import com.openclassrooms.safetyNet.model.Person;
-
 import java.util.List;
 import java.util.Map;
 
