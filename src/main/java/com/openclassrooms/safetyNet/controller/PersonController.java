@@ -20,13 +20,13 @@ public class PersonController {
 
     @PostMapping()
     public Person addPerson(@RequestBody Person person) {
-        logger.info("Post request for /person endpoint to add a person {}", person);
+        logger.info("Post request for /person endpoint to add a {}", person);
         return personJsonService.createPerson(person);
     }
 
     @PutMapping()
     public Person updatePerson(@RequestBody Person person) {
-        logger.info("Put request for /person endpoint to update a person {}", person);
+        logger.info("Put request for /person endpoint to update a person to {}", person);
         if(personJsonService.updatePerson(person) == null) {
             System.out.println("updated person does not exist!");
         }
@@ -40,7 +40,7 @@ public class PersonController {
 
     @DeleteMapping()
     public void deletePerson(@RequestBody Person person) {
-        logger.info("Delete request for /person endpoint to delete a person {}", person);
+        logger.info("Delete request for /person endpoint to delete a person with first name {} and last name {}", person.getFirstName(), person.getLastName());
         personJsonService.deletePerson(person);
     }
     

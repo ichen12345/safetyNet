@@ -1,8 +1,5 @@
 package com.openclassrooms.safetyNet.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
 @lombok.Data

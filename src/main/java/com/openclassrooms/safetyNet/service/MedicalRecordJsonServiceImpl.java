@@ -47,4 +47,9 @@ public class MedicalRecordJsonServiceImpl implements MedicalRecordJsonService{
             }
         }
     }
+
+    @Override
+    public List<MedicalRecord> getMedicalRecords() {
+        return data.getMedicalrecords();
+    }
 }

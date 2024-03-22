@@ -27,7 +27,7 @@ public class SafetyNetController {
 
     @GetMapping("/childAlert")
     public Map<String, Object> getChildAlert(@RequestParam String address) {
-        logger.info("GET request for /childAlert endpoint to get a list of children at that address");
+        logger.info("GET request for /childAlert endpoint to get a list of children at the address {}", address);
         return safetyNetJsonService.childrenFromAddress(address);
     }
 

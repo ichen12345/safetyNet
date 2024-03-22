@@ -2,11 +2,9 @@ package com.openclassrooms.safetyNet.service;
 
 import com.openclassrooms.safetyNet.model.Data;
 import com.openclassrooms.safetyNet.model.FireStation;
-import com.openclassrooms.safetyNet.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,6 +19,11 @@ public class FireStationJsonServiceImpl implements FireStationJsonService{
         List<FireStation> fireStationList = data.getFirestations();
         fireStationList.add(fireStation);
         return fireStation;
+    }
+
+    @Override
+    public List<FireStation> getFireStations() {
+        return data.getFirestations();
     }
 
     @Override
