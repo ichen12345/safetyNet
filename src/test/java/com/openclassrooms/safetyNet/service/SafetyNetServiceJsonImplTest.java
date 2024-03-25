@@ -136,8 +136,7 @@ class SafetyNetServiceJsonImplTest {
         stations.add("3");
         Map<String, Object> results = safetyNetServiceJson.getHouseholdByStation(stations);
 
-        assertTrue(fireStations.get(0).getStation().equals(stations.get(0)));
-        assertNotNull(results.get("persons from station 3"));
+        assertNotNull(results.get(stations.get(0)));
     }
 
     @Test

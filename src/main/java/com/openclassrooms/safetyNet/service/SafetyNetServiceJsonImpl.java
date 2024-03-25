@@ -4,6 +4,7 @@ import com.openclassrooms.safetyNet.model.FireStation;
 import com.openclassrooms.safetyNet.model.MedicalRecord;
 import com.openclassrooms.safetyNet.model.Person;
 import com.openclassrooms.safetyNet.model.Data;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
@@ -188,7 +190,6 @@ public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
 //                            personMap.put("phone number", person.getPhone());
 //                            personMap.put("firstName", person.getFirstName());
 //                            personMap.put("lastName", person.getLastName());
-//                            personMap.put("address", person.getAddress());
 //
 //                            for (MedicalRecord medicalRecord : data.getMedicalrecords()) {
 //                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
@@ -218,60 +219,78 @@ public class SafetyNetServiceJsonImpl implements SafetyNetJsonService {
 //        return stationPerson;
 //    }
 
-
-
     @Override
     public Map<String, Object> getHouseholdByStation(List<String> stations) {
-        List<Map<String, Object>> summary;
-        Map<String, List<Map<String, Object>>> addressPerson;
-        Map<String, Object> stationPerson = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
+
+        List<FireStation> fireStations = data.getFirestations();
+        List<Person> personList = data.getPersons();
+        List<MedicalRecord> medicalRecordList = data.getMedicalrecords();
+
+        ArrayList<String[]> addressList = new ArrayList<>();
+
+
         for (String station : stations) {
-//            summary = new ArrayList<>();
-            addressPerson = new HashMap<>();
-            for (FireStation fireStation : data.getFirestations()) {
-
-                Map<String, Object> personMap = new HashMap<>();
+            for (FireStation fireStation : fireStations) {
                 if (fireStation.getStation().equals(station)) {
-                    for (Person person : data.getPersons()) {
+                    addressList.add(new String[]{fireStation.getStation(), fireStation.getAddress()});
+                }
+            }
+        }
 
-//                        Map<String, Object> personMap = new HashMap<>();
-                        if (fireStation.getAddress().equals(person.getAddress())) {
-                            summary = new ArrayList<>();
-                            personMap.put("phone number", person.getPhone());
-                            personMap.put("firstName", person.getFirstName());
-                            personMap.put("lastName", person.getLastName());
-//                            summary.add(personMap);
-//                            addressPerson.put(person.getAddress(), summary);
-                            if (!addressPerson.containsKey(fireStation.getAddress())) {
-                                summary.add(personMap);
-                                addressPerson.put(person.getAddress(), summary);
-                            } else {
-                                List<Map<String, Object>> summaryLocal = addressPerson.get(person.getAddress());
-                                summaryLocal.add(personMap);
 
-                            }
-//                            for (MedicalRecord medicalRecord : data.getMedicalrecords()) {
-//                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
-//                                    int age = Period.between(LocalDate.parse(medicalRecord.getBirthdate(), formatter), LocalDate.now()).getYears();
-//                                    personMap.put("age", String.valueOf(age));
-//                                    personMap.put("medications", medicalRecord.getMedications());
-//                                    personMap.put("allergies", medicalRecord.getAllergies());
-//                                    summary.add(personMap);
-//
-//                                }
-//                            }
+        HashMap<String, List<HashMap<String, Object>>> groupByHousehold = new HashMap<>();
+
+        for (Person person : personList) {
+            for (String[] stringList: addressList){
+                if (stringList[1].equals(person.getAddress())){
+                    HashMap<String, Object> personWithMedical = new HashMap<>();
+                    personWithMedical.put("phone number", person.getPhone());
+                    personWithMedical.put("firstName", person.getFirstName());
+                    personWithMedical.put("lastName", person.getLastName());
+                    personWithMedical.put("address", person.getAddress());
+                    for (MedicalRecord medicalRecord : medicalRecordList) {
+                        if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())){
+                            int age = Period.between(LocalDate.parse(medicalRecord.getBirthdate(), formatter), LocalDate.now()).getYears();
+                            personWithMedical.put("age", String.valueOf(age));
+                            personWithMedical.put("medications", medicalRecord.getMedications());
+                            personWithMedical.put("allergies", medicalRecord.getAllergies());
                         }
-                        stationPerson.put("person from station " + station, addressPerson.get(person.getAddress()));
+                    }
 
-
+                    if (groupByHousehold.containsKey(person.getAddress())){
+                        List<HashMap<String, Object>> localPersonList = groupByHousehold.get(person.getAddress());
+                        localPersonList.add(personWithMedical);
+                    }
+                    else{
+                        ArrayList<HashMap<String, Object>> personArrayList = new ArrayList<>();
+                        personArrayList.add(personWithMedical);
+                        groupByHousehold.put(person.getAddress(), personArrayList);
                     }
                 }
             }
-
         }
 
-        return stationPerson;
+        for (String station : stations) {
+            List<HashMap<String, Object>> listByHousehold = new ArrayList<>();
+            for (String[] stringList: addressList){
+                if (station.equals(stringList[0])){
+                    for (String address: groupByHousehold.keySet()){
+                        if (address.equals(stringList[1])){
+                            HashMap<String, Object> labelWithData = new HashMap<>();
+                            labelWithData.put("jurisdiction", address);
+                            labelWithData.put("household", groupByHousehold.get(address));
+                            listByHousehold.add(labelWithData);
+                        }
+                    }
+                }
+            }
+            result.put(station, listByHousehold);
+        }
+
+        return result;
     }
+
 
     @Override
     public List<String> allEmailFromCity(String city) {
