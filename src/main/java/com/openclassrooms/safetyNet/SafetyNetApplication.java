@@ -23,8 +23,8 @@ public class SafetyNetApplication {
 	public Data getData() {
 		Gson gson = new Gson();
 		Data data = null;
-		try (Reader reader = new FileReader("C:\\Spring Boot Projects\\safetyNet\\src\\main\\resources\\data.json")) {
-
+//		try (Reader reader = new FileReader("C:\\Spring Boot Projects\\safetyNet\\src\\main\\resources\\data.json")) {
+		try (Reader reader = new FileReader("src\\main\\resources\\data.json")) {
 			// Convert JSON File to Java Object
 			data = gson.fromJson(reader, Data.class);
 			System.out.println(data.toString());
